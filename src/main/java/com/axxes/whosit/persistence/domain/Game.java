@@ -3,9 +3,7 @@ package com.axxes.whosit.persistence.domain;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Entity
 @Table(name = "game")
@@ -17,6 +15,8 @@ public class Game {
     private Round[] rounds;
     private static final int standardNumberRounds = 20;
     private int currentRound = 0;
+
+    public Game(){}
 
     public Game(AxxesUser user, List<Staff> staffs){
         this(user, staffs, standardNumberRounds);
@@ -43,16 +43,15 @@ public class Game {
     private long completionTimeMs;
 
     public void generateRandomAnswers(List<Staff> staffs){
-        Random random = new Random();
+        Collections.shuffle(staffs);
         for(int i = 0; i < rounds.length; i++){
-            int randomValue = random.nextInt(staffs.size());
-            Staff randomStaff = staffs.get(randomValue);
-            rounds[i] = new Round(randomStaff);
+            Staff shuffledStaff = staffs.get(i);
+            rounds[i] = new Round(shuffledStaff);
         }
     }
 
     public boolean isCorrect(int round, Long staffId){
-        return rounds[round].isCorrect();
+        return rounds[round].isCorrect(staffId);
     }
 
     public void calculateScore(){
@@ -67,7 +66,7 @@ public class Game {
     }
 
     public Round getRound(int round){
-        return rounds[currentRound];
+        return rounds[round];
     }
 
     public int getAmountRoundNumber(){
@@ -87,5 +86,82 @@ public class Game {
     //TODO: timecheck errors
     public void calculateCompletiontime(Date endDate) {
         this.completionTimeMs = endDate.getTime() - timestamp.getTime();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Round[] getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(Round[] rounds) {
+        this.rounds = rounds;
+    }
+
+    public static int getStandardNumberRounds() {
+        return standardNumberRounds;
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
+    public AxxesUser getAxxesUser() {
+        return axxesUser;
+    }
+
+    public void setAxxesUser(AxxesUser axxesUser) {
+        this.axxesUser = axxesUser;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public long getCompletionTimeMs() {
+        return completionTimeMs;
+    }
+
+    public void setCompletionTimeMs(long completionTimeMs) {
+        this.completionTimeMs = completionTimeMs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return getId() == game.getId() &&
+                Double.compare(game.getScore(), getScore()) == 0 &&
+                getCompletionTimeMs() == game.getCompletionTimeMs() &&
+                Objects.equals(getAxxesUser(), game.getAxxesUser()) &&
+                Objects.equals(getTimestamp(), game.getTimestamp());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getAxxesUser(), getTimestamp(), getScore(), getCompletionTimeMs());
     }
 }
