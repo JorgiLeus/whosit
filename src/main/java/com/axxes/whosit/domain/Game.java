@@ -1,11 +1,9 @@
-package com.axxes.whosit.persistence.domain;
+package com.axxes.whosit.domain;
 
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Entity
 @Table(name = "game")
@@ -14,18 +12,17 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private Round[] rounds;
-    private static final int standardNumberRounds = 20;
-    private int currentRound = 0;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Round> rounds;
 
     public Game(AxxesUser user, List<Staff> staffs){
-        this(user, staffs, standardNumberRounds);
+        this(user, staffs, 20);
     }
 
     public Game(AxxesUser user, List<Staff> staffs, int numberRounds){
         this.axxesUser = user;
-        rounds = new Round[numberRounds];
-        generateRandomAnswers(staffs);
+        rounds = new ArrayList<>();
+        generateRandomAnswers(staffs, numberRounds);
     }
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
@@ -42,17 +39,17 @@ public class Game {
     @Column(name =  "completiontime")
     private long completionTimeMs;
 
-    public void generateRandomAnswers(List<Staff> staffs){
-        Random random = new Random();
-        for(int i = 0; i < rounds.length; i++){
-            int randomValue = random.nextInt(staffs.size());
-            Staff randomStaff = staffs.get(randomValue);
-            rounds[i] = new Round(randomStaff);
+    public void generateRandomAnswers(List<Staff> staffs, int numberOfRounds){
+        Collections.shuffle(staffs);
+        for(int i = 0; i < numberOfRounds; i++){
+            Staff randomStaff = staffs.get(i);
+            rounds.add(new Round(randomStaff, staffs));
         }
     }
 
     public boolean isCorrect(int round, Long staffId){
-        return rounds[round].isCorrect();
+        rounds.get(round).setCorrect(staffId);
+        return rounds.get(round).isCorrect();
     }
 
     public void calculateScore(){
@@ -63,15 +60,15 @@ public class Game {
                 ++correctAnswers;
             }
         }
-        score = (double) correctAnswers/ rounds.length;
+        score = (double) correctAnswers/ rounds.size();
     }
 
     public Round getRound(int round){
-        return rounds[currentRound];
+        return rounds.get(round);
     }
 
     public int getAmountRoundNumber(){
-        return rounds.length;
+        return rounds.size();
     }
 
     public boolean isCompleted(){

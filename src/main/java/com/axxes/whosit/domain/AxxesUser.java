@@ -1,4 +1,4 @@
-package com.axxes.whosit.persistence.domain;
+package com.axxes.whosit.domain;
 
 import javax.persistence.*;
 import java.util.List;

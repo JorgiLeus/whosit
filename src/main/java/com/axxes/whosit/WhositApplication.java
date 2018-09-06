@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.axxes")
+@ComponentScan(basePackages = "com.axxes.whosit")
 @EnableAutoConfiguration
 public class WhositApplication {
 
