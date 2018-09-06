@@ -14,7 +14,6 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private Round[] rounds;
     private static final int standardNumberRounds = 20;
     private int currentRound = 0;
@@ -89,5 +88,4 @@ public class Game {
     public void calculateCompletiontime(Date endDate) {
         this.completionTimeMs = endDate.getTime() - timestamp.getTime();
     }
-
 }
