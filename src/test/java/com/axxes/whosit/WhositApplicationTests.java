@@ -11,9 +11,4 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 public class WhositApplicationTests {
 
-	@Test
-	public void contextLoads() {
-		assertThat(true).isTrue();
-	}
-
 }
