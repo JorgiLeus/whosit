@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @EnableAutoConfiguration
 public class WhositApplication {
 
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args){
 		SpringApplication.run(WhositApplication.class, args);
 	}
 
