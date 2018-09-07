@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class GameServiceImpl implements GameService {
 
     private GameRepository gameRepo;
@@ -25,8 +26,8 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    @Transactional
-    public void createGame(Game game) {
-        gameRepo.save(game);
+    public Long createGame(Game game) {
+        Game savedGame = gameRepo.save(game);
+        return savedGame.getId();
     }
 }

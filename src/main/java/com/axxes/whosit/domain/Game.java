@@ -3,6 +3,7 @@ package com.axxes.whosit.domain;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.*;
 
 @Entity
@@ -12,22 +13,14 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+
+    @OneToMany(targetEntity = Round.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "game_id")
     private List<Round> rounds;
 
-    public Game(AxxesUser user, List<Staff> staffs){
-        this(user, staffs, 20);
-    }
-
-    public Game(AxxesUser user, List<Staff> staffs, int numberRounds){
-        this.axxesUser = user;
-        rounds = new ArrayList<>();
-        generateRandomAnswers(staffs, numberRounds);
-    }
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    /*@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "axxes_user_id")
-    private AxxesUser axxesUser;
+    private AxxesUser axxesUser;*/
 
     @Column
     @CreatedDate
@@ -38,6 +31,65 @@ public class Game {
 
     @Column(name =  "completiontime")
     private long completionTimeMs;
+
+    public Game(List<Staff> staffs){
+        this(staffs, 20);
+    }
+
+    public Game(List<Staff> staffs, int numberRounds){
+        rounds = new ArrayList<>();
+        timestamp = Date.from(Instant.now());
+        generateRandomAnswers(staffs, numberRounds);
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public List<Round> getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(List<Round> rounds) {
+        this.rounds = rounds;
+    }
+/*
+    public AxxesUser getAxxesUser() {
+        return axxesUser;
+    }
+
+    public void setAxxesUser(AxxesUser axxesUser) {
+        this.axxesUser = axxesUser;
+    }*/
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public long getCompletionTimeMs() {
+        return completionTimeMs;
+    }
+
+    public void setCompletionTimeMs(long completionTimeMs) {
+        this.completionTimeMs = completionTimeMs;
+    }
+
 
     public void generateRandomAnswers(List<Staff> staffs, int numberOfRounds){
         Collections.shuffle(staffs);

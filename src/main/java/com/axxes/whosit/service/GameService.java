@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface GameService {
     Optional<Game> getGameById(Long id);
-    void createGame(Game game);
+    Long createGame(Game game);
 }

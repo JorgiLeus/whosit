@@ -20,9 +20,9 @@ public class AxxesUser {
 
     @Column
     private String password;
-
+/*
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "axxesUser")
-    private List<Game> games;
+    private List<Game> games;*/
 
     public AxxesUser() {
     }
