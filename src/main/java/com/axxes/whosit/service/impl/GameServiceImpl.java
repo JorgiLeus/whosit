@@ -40,7 +40,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Optional<Game> getBestGameForAxxesUser(Long id) {
-        return gameRepo.findFirstByStaff_idOrderByScoreDescCompletionTimeMsAsc(id);
+    public Optional<Game> getBestGameForAxxesUser(Long staff_id, Long id) {
+        return gameRepo.findFirstByStaff_idAndIdNotOrderByScoreDescCompletionTimeMsAsc(staff_id, id);
     }
 }

@@ -33,7 +33,7 @@ public class ScoreController {
 
         Optional<Staff> currentStaff = staffService.getStaffById(staffId);
 
-        Optional<Game> bestGame = gameService.getBestGameForAxxesUser(currentStaff.get().getId());
+        Optional<Game> bestGame = gameService.getBestGameForAxxesUser(currentStaff.get().getId(), gameId);
         Optional<Game> currentGame = gameService.getGameById(gameId);
 
         if(currentGame.isPresent()){
