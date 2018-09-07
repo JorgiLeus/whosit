@@ -14,5 +14,5 @@ public interface GameRepository extends CrudRepository<Game, Long> {
     Optional<Game> findById(Long id);
     List<Game> findAll();
     List<Game> findTop10ByOrderByScoreDescCompletionTimeMsAsc();
-    Optional<Game> findFirstByStaff_idOrderByScoreDescCompletionTimeMsAsc(Long staff_id);
+    Optional<Game> findFirstByStaff_idAndIdNotOrderByScoreDescCompletionTimeMsAsc(Long staff_id, Long id);
 }

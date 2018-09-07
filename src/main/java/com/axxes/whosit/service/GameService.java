@@ -13,5 +13,5 @@ public interface GameService {
     Optional<Game> getGameById(Long id);
     Long createGame(Game game);
     List<Game> getHiScores();
-    Optional<Game> getBestGameForAxxesUser(Long id);
+    Optional<Game> getBestGameForAxxesUser(Long staff_id, Long game_id);
 }
