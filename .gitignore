@@ -20,6 +20,7 @@
 *.rar
 *.gradle
 *.idea
+/classes/
 out/
 whosit.iml
 
