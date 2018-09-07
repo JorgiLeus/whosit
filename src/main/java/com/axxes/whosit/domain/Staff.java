@@ -1,4 +1,4 @@
-package com.axxes.whosit.persistence.domain;
+package com.axxes.whosit.domain;
 
 import javax.persistence.*;
 
@@ -22,10 +22,6 @@ public class Staff {
 
     @Column
     private String pictureUrl;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "axxes_user_id")
-    private AxxesUser axxesUser;
 
     public Staff() {
     }

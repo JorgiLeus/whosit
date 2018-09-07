@@ -1,4 +1,4 @@
-package com.axxes.whosit.persistence.domain;
+package com.axxes.whosit.domain;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,9 +20,9 @@ public class AxxesUser {
 
     @Column
     private String password;
-
+/*
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "axxesUser")
-    private List<Game> games;
+    private List<Game> games;*/
 
     public AxxesUser() {
     }

@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.axxes")
+@ComponentScan(basePackages = "com.axxes.whosit")
 @EnableAutoConfiguration
 public class WhositApplication {
 
