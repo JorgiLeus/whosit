@@ -63,14 +63,6 @@ public class Game {
     public void setRounds(List<Round> rounds) {
         this.rounds = rounds;
     }
-/*
-    public AxxesUser getAxxesUser() {
-        return axxesUser;
-    }
-
-    public void setAxxesUser(AxxesUser axxesUser) {
-        this.axxesUser = axxesUser;
-    }*/
 
     public Date getTimestamp() {
         return timestamp;
@@ -110,11 +102,6 @@ public class Game {
             Staff randomStaff = staffs.get(i);
             rounds.add(new Round(randomStaff, staffs));
         }
-    }
-
-    public boolean isCorrect(int round, Long staffId){
-        rounds.get(round).setCorrect(staffId);
-        return rounds.get(round).isCorrect();
     }
 
     public void calculateScore(){

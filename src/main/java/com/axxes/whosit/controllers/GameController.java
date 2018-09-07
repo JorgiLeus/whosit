@@ -1,10 +1,11 @@
 package com.axxes.whosit.controllers;
 
-import com.axxes.whosit.GameRequest;
-import com.axxes.whosit.domain.AxxesUser;
-import com.axxes.whosit.domain.Game;
-import com.axxes.whosit.domain.Gender;
-import com.axxes.whosit.domain.Staff;
+import com.axxes.whosit.service.RoundService;
+import com.axxes.whosit.view.GameRequest;
+import com.axxes.whosit.view.RoundResponseView;
+import com.axxes.whosit.view.RoundView;
+import com.axxes.whosit.view.StaffView;
+import com.axxes.whosit.domain.*;
 import com.axxes.whosit.service.GameService;
 import com.axxes.whosit.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
@@ -43,18 +43,33 @@ public class GameController {
                 .buildAndExpand(gameId)
                 .toUri();
 
-//        URI url = UriComponentsBuilder.fromHttpUrl(request.getRequestURI()).path("game/{gameId}/round/1")
-//                .buildAndExpand(gameId).toUri();
-
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(url);
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @GetMapping("/game/{gameId}/round/{round}")
-    public ResponseEntity<?> getGameFirstRound(@PathVariable Long gameId, HttpServletRequest request){
+    @GetMapping("/game/{gameId}/round/{roundIndex}")
+    public ResponseEntity<?> getGameFirstRound(@PathVariable Long gameId, @PathVariable int roundIndex){
+        List<Staff> staffList = staffservice.getAll();
         Optional<Game> optionalGame = gameService.getGameById(gameId);
-        return null;
+
+        if(!optionalGame.isPresent()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        Round requestedRound =  optionalGame.get().getRound(roundIndex);
+
+        List<StaffView> possibleStaffview = new ArrayList<>();
+        for (Staff s :
+                requestedRound.getScrambledList()) {
+            possibleStaffview.add(new StaffView(s.getId(), s.getPictureUrl()));
+        }
+        RoundView roundView = new RoundView(requestedRound.getId(), possibleStaffview, requestedRound.getStaff().getFullName());
+
+        return ResponseEntity.ok(roundView);
     }
+
+
+
 }
