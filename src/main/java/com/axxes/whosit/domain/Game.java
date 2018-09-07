@@ -22,6 +22,10 @@ public class Game {
     @JoinColumn(name = "axxes_user_id")
     private AxxesUser axxesUser;*/
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name="staff_id")
+    private Staff staff;
+
     @Column
     @CreatedDate
     private Date timestamp;
@@ -32,7 +36,7 @@ public class Game {
     @Column(name =  "completiontime")
     private long completionTimeMs;
 
-    public Game(){}
+    public Game() {}
 
     public Game(List<Staff> staffs){
         this(staffs, 20);
@@ -59,14 +63,6 @@ public class Game {
     public void setRounds(List<Round> rounds) {
         this.rounds = rounds;
     }
-/*
-    public AxxesUser getAxxesUser() {
-        return axxesUser;
-    }
-
-    public void setAxxesUser(AxxesUser axxesUser) {
-        this.axxesUser = axxesUser;
-    }*/
 
     public Date getTimestamp() {
         return timestamp;
@@ -92,6 +88,13 @@ public class Game {
         this.completionTimeMs = completionTimeMs;
     }
 
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
 
     public void generateRandomAnswers(List<Staff> staffs, int numberOfRounds){
         Collections.shuffle(staffs);

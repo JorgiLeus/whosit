@@ -1,12 +1,15 @@
 package com.axxes.whosit.service.impl;
 
+import com.axxes.whosit.domain.AxxesUser;
 import com.axxes.whosit.domain.Game;
+import com.axxes.whosit.domain.Staff;
 import com.axxes.whosit.repository.GameRepository;
 import com.axxes.whosit.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,5 +32,15 @@ public class GameServiceImpl implements GameService {
     public Long createGame(Game game) {
         Game savedGame = gameRepo.save(game);
         return savedGame.getId();
+    }
+
+    @Override
+    public List<Game> getHiScores() {
+        return gameRepo.findTop10ByOrderByScoreDescCompletionTimeMsAsc();
+    }
+
+    @Override
+    public Optional<Game> getBestGameForAxxesUser(Long id) {
+        return gameRepo.findFirstByStaff_idOrderByScoreDescCompletionTimeMsAsc(id);
     }
 }
