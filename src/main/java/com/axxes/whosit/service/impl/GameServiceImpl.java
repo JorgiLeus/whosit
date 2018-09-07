@@ -2,6 +2,7 @@ package com.axxes.whosit.service.impl;
 
 import com.axxes.whosit.domain.AxxesUser;
 import com.axxes.whosit.domain.Game;
+import com.axxes.whosit.domain.Staff;
 import com.axxes.whosit.repository.GameRepository;
 import com.axxes.whosit.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,11 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public List<Game> getHiScores() {
-        return gameRepo.findTop10ByOrderByScoreAndCompletionTimeMs();
+        return gameRepo.findTop10ByOrderByScoreDescCompletionTimeMsAsc();
     }
 
     @Override
-    public Game getBestGameForAxxesUser(AxxesUser axxesUser) {
-        return gameRepo.findFirstByAxxes_User_IdOrderByScoreAndCompletionTimeMs(axxesUser.getId());
+    public Optional<Game> getBestGameForAxxesUser(Long id) {
+        return gameRepo.findFirstByStaff_idOrderByScoreDescCompletionTimeMsAsc(id);
     }
 }

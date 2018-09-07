@@ -2,6 +2,7 @@ package com.axxes.whosit.repository;
 
 import com.axxes.whosit.domain.AxxesUser;
 import com.axxes.whosit.domain.Game;
+import com.axxes.whosit.domain.Staff;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,6 @@ import java.util.Optional;
 public interface GameRepository extends CrudRepository<Game, Long> {
     Optional<Game> findById(Long id);
     List<Game> findAll();
-    List<Game> findTop10ByOrderByScoreAndCompletionTimeMs();
-    Game findFirstByAxxes_User_IdOrderByScoreAndCompletionTimeMs(Long axxes_user_id);
+    List<Game> findTop10ByOrderByScoreDescCompletionTimeMsAsc();
+    Optional<Game> findFirstByStaff_idOrderByScoreDescCompletionTimeMsAsc(Long staff_id);
 }
