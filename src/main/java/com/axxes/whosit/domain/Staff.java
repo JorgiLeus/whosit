@@ -73,4 +73,8 @@ public class Staff {
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
     }
+
+    public String getFullName(){
+        return firstName + " " + lastName;
+    }
 }

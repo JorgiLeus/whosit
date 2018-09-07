@@ -1,4 +1,4 @@
-package com.axxes.whosit;
+package com.axxes.whosit.view;
 
 public class GameRequest {
 

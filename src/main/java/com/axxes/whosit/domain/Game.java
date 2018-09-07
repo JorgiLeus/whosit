@@ -32,6 +32,8 @@ public class Game {
     @Column(name =  "completiontime")
     private long completionTimeMs;
 
+    public Game(){}
+
     public Game(List<Staff> staffs){
         this(staffs, 20);
     }
@@ -97,11 +99,6 @@ public class Game {
             Staff randomStaff = staffs.get(i);
             rounds.add(new Round(randomStaff, staffs));
         }
-    }
-
-    public boolean isCorrect(int round, Long staffId){
-        rounds.get(round).setCorrect(staffId);
-        return rounds.get(round).isCorrect();
     }
 
     public void calculateScore(){
