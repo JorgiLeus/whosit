@@ -2,13 +2,13 @@ package com.axxes.whosit.view;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class StaffView {
-    @JsonProperty("staffId")
+public class PictureView {
     private Long id;
+
     @JsonProperty("url")
     private String picture_url;
 
-    public StaffView(Long id, String picture_url) {
+    public PictureView(Long id, String picture_url) {
         this.id = id;
         this.picture_url = picture_url;
     }

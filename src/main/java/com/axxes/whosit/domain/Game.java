@@ -38,13 +38,14 @@ public class Game {
 
     public Game() {}
 
-    public Game(List<Staff> staffs){
-        this(staffs, 20);
+    public Game(List<Staff> staffs, Staff staff){
+        this(staffs, 20, staff);
     }
 
-    public Game(List<Staff> staffs, int numberRounds){
+    public Game(List<Staff> staffs, int numberRounds, Staff staff){
         rounds = new ArrayList<>();
         timestamp = Date.from(Instant.now());
+        this.staff = staff;
         generateRandomAnswers(staffs, numberRounds);
     }
 
