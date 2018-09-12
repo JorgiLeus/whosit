@@ -7,25 +7,28 @@ import java.util.List;
 public class RoundView {
 
     @JsonProperty("pictures")
-    private List<StaffView> possibleAnswers;
-    @JsonProperty("roundId")
+    private List<PictureView> possibleAnswers;
+
     private Long id;
-    @JsonProperty("fullname")
+
     private String fullName;
+
+    private Long gameId;
 
     public RoundView(){}
 
-    public RoundView (Long id, List<StaffView> possibleAnswers, String fullName){
+    public RoundView (Long id, List<PictureView> possibleAnswers, String fullName, long gameId){
         this.id = id;
         this.possibleAnswers = possibleAnswers;
         this.fullName = fullName;
+        this.gameId = gameId;
     }
 
-    public List<StaffView> getPossibleAnswers() {
+    public List<PictureView> getPossibleAnswers() {
         return possibleAnswers;
     }
 
-    public void setPossibleAnswers(List<StaffView> possibleAnswers) {
+    public void setPossibleAnswers(List<PictureView> possibleAnswers) {
         this.possibleAnswers = possibleAnswers;
     }
 
@@ -42,5 +45,13 @@ public class RoundView {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public Long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
     }
 }
