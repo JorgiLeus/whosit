@@ -1,10 +1,13 @@
 package com.axxes.whosit.controllers;
 
-import com.axxes.whosit.domain.AxxesUser;
 import com.axxes.whosit.domain.Game;
 import com.axxes.whosit.domain.Staff;
 import com.axxes.whosit.service.GameService;
 import com.axxes.whosit.service.StaffService;
+import com.axxes.whosit.view.RankView;
+import com.axxes.whosit.view.ScoreView;
+import com.axxes.whosit.view.StaffView;
+import com.axxes.whosit.view.ScoreListView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/score")
+@RequestMapping("/api")
 public class ScoreController {
 
     private GameService gameService;
@@ -27,37 +31,57 @@ public class ScoreController {
         this.staffService = staffService;
     }
 
-    @GetMapping("/personalscore/{staffId}/{gameId}")
-    public ResponseEntity<List<Game>> getCurrentScoreAndMaxScore(@PathVariable("staffId") final Long staffId, @PathVariable("gameId") final Long gameId, HttpServletRequest request){
-        List<Game> games = new ArrayList<>();
+    @GetMapping("scores/{staffId}/{gameId}")
+    public ResponseEntity<RankView> getCurrentScoreAndMaxScore(
+            @PathVariable("staffId") final Long staffId,
+            @PathVariable(value = "gameId", required = false) final Long gameId,
+            HttpServletRequest request){
 
         Optional<Staff> currentStaff = staffService.getStaffById(staffId);
 
         Optional<Game> bestGame = gameService.getBestGameForAxxesUser(currentStaff.get().getId(), gameId);
         Optional<Game> currentGame = gameService.getGameById(gameId);
 
+        RankView rank = new RankView();
+
+        //todo: get ranking for user
+        rank.setRank(-1);
+
         if(currentGame.isPresent()){
-            games.add(currentGame.get());
+            rank.setCurrent(gameToScoreView(currentGame.get()));
+        } else {
+            return ResponseEntity.notFound().build();
         }
         if (bestGame.isPresent()){
-            games.add(bestGame.get());
+            rank.setBest(gameToScoreView(currentGame.get()));
         }
 
-        if (games != null){
-            return ResponseEntity.ok(games);
-        }
-        else{
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(rank);
+
     }
 
-    @GetMapping("/hiscores")
-    public ResponseEntity<List<Game>> getHiScores(){
+    @GetMapping("/scores")
+    public ResponseEntity<ScoreListView> getHiScores(){
         List<Game> games = gameService.getHiScores();
-        if (games != null){
-            return ResponseEntity.ok(games);
-        }else {
-            return ResponseEntity.notFound().build();
+
+
+        if (games == null){
+            games = new ArrayList<>();
+
         }
+
+        List<ScoreView> scores = games.stream()
+                .map(g -> gameToScoreView(g))
+                .collect(Collectors.toList());
+
+        ScoreListView scoreListView = new ScoreListView("period todo", scores);
+
+        return ResponseEntity.ok(scoreListView);
+    }
+
+    private ScoreView gameToScoreView(Game game) {
+        Staff staff = game.getStaff();
+        StaffView staffView = new StaffView(staff.getId(), staff.getFullName(), staff.getGender().name());
+        return new ScoreView(staffView, game.getScore(), game.getCompletionTimeMs(), -1);
     }
 }

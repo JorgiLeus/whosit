@@ -8,9 +8,6 @@ public class GameResponse {
 
     private boolean tryout;
 
-    @JsonProperty("user")
-    private long staffId;
-
     private int rounds;
 
     private int currentRoundIndex;
@@ -18,14 +15,13 @@ public class GameResponse {
     public GameResponse() {
     }
 
-    public GameResponse(long id, long staffId, int rounds, int currentRoundIndex) {
-        this(id, staffId, rounds, currentRoundIndex, false);
+    public GameResponse(long id, int rounds, int currentRoundIndex) {
+        this(id, rounds, currentRoundIndex, false);
     }
 
-    public GameResponse(long id, long staffId, int rounds, int currentRoundIndex, boolean tryout) {
+    public GameResponse(long id, int rounds, int currentRoundIndex, boolean tryout) {
         this.id = id;
         this.tryout = tryout;
-        this.staffId = staffId;
         this.rounds = rounds;
         this.currentRoundIndex = currentRoundIndex;
     }
@@ -44,14 +40,6 @@ public class GameResponse {
 
     public void setTryout(boolean tryout) {
         this.tryout = tryout;
-    }
-
-    public long getStaffId() {
-        return staffId;
-    }
-
-    public void setStaffId(long staffId) {
-        this.staffId = staffId;
     }
 
     public int getRounds() {

@@ -65,7 +65,6 @@ public class GameController {
         //TODO: set currentRoundIndex by rounds that have been played
         //TODO: implement tryout;
         GameResponse gameResponse = new GameResponse(game.getId(),
-                game.getStaff().getId(),
                 game.getAmountRoundNumber(),
                 0);
 
