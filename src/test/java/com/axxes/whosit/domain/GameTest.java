@@ -1,6 +1,6 @@
 package com.axxes.whosit.domain;
 
-import com.axxes.whosit.persistence.domain.*;
+import com.axxes.whosit.domain.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,25 +34,26 @@ public class GameTest {
 
     @Before
     public void setUp(){
-        game = new Game(axxesUser, staffs);
+        game = new Game(staffs);
     }
 
     @Test
     public void testGenerateRandomAnswers(){
-        game.generateRandomAnswers(staffs);
-
-        assertThat(game.getRounds().length).isEqualTo(20);
+        assertThat(game.getRounds().size()).isEqualTo(20);
 
         for (int i = 0; i<20; i++){
             Round round = game.getRound(i);
-            assertThat(game.getRounds()).containsOnlyOnce(round);
+            int firstIndex = game.getRounds().indexOf(round);
+            int lastIndex = game.getRounds().lastIndexOf(round);
+            assertThat(firstIndex).isEqualTo(lastIndex);
         }
     }
 
     @Test
     public void testIsCorrect(){
-        game.generateRandomAnswers(staffs);
+        int roundIndex = 0;
+        Long correctAnswer = game.getRound(roundIndex).getCorrectAnswer();
 
-        assertThat(game.isCorrect(1, game.getRound(1).getStaff().getId())).isTrue();
+        assertThat(correctAnswer).isEqualTo(game.getRound(roundIndex).getStaff().getId());
     }
 }

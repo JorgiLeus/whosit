@@ -1,6 +1,7 @@
 package com.axxes.whosit.controllers;
 
 import com.axxes.whosit.domain.Game;
+import com.axxes.whosit.domain.GameScore;
 import com.axxes.whosit.domain.Staff;
 import com.axxes.whosit.service.GameService;
 import com.axxes.whosit.service.StaffService;
@@ -39,7 +40,7 @@ public class ScoreController {
 
         Optional<Staff> currentStaff = staffService.getStaffById(staffId);
 
-        Optional<Game> bestGame = gameService.getBestGameForAxxesUser(currentStaff.get().getId(), gameId);
+        Optional<Game> bestGame = gameService.getBestGameForStaffUser(currentStaff.get().getId(), gameId);
         Optional<Game> currentGame = gameService.getGameById(gameId);
 
         RankView rank = new RankView();
@@ -60,9 +61,9 @@ public class ScoreController {
 
     }
 
-    @GetMapping("/scores")
+   /* @GetMapping("/scores")
     public ResponseEntity<ScoreListView> getHiScores(){
-        List<Game> games = gameService.getHiScores();
+        List<GameScore> games = gameService.getGameScore();
 
 
         if (games == null){
@@ -77,7 +78,7 @@ public class ScoreController {
         ScoreListView scoreListView = new ScoreListView("period todo", scores);
 
         return ResponseEntity.ok(scoreListView);
-    }
+    }*/
 
     private ScoreView gameToScoreView(Game game) {
         Staff staff = game.getStaff();

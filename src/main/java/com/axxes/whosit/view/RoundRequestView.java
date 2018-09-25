@@ -4,20 +4,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RoundRequestView {
     @JsonProperty("pictureId")
-    private Long staffId;
+    private String staffId;
 
     public RoundRequestView() {
     }
 
-    public RoundRequestView(Long staffId) {
+    public RoundRequestView(String staffId) {
         this.staffId = staffId;
     }
 
-    public Long getStaffId() {
+    public String getStaffId() {
         return staffId;
     }
 
-    public void setStaffId(Long staffId) {
+    public void setStaffId(String staffId) {
         this.staffId = staffId;
     }
 

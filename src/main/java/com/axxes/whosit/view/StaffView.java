@@ -1,24 +1,24 @@
 package com.axxes.whosit.view;
 
 public class StaffView {
-    private long id;
+    private String id;
     private String name;
     private String gender;
 
     public StaffView() {
     }
 
-    public StaffView(long id, String name, String gender) {
+    public StaffView(String id, String name, String gender) {
         this.id = id;
         this.name = name;
         this.gender = gender;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

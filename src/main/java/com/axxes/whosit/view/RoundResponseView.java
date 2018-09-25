@@ -4,17 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RoundResponseView {
     @JsonProperty("correctPictureId")
-    private Long staffId;
+    private String staffId;
 
-    public RoundResponseView(Long staffId) {
+
+    public RoundResponseView(String staffId) {
         this.staffId = staffId;
     }
 
-    public Long getStaffId() {
+    public String getStaffId() {
         return staffId;
     }
 
-    public void setStaffId(Long staffId) {
+    public void setStaffId(String staffId) {
         this.staffId = staffId;
     }
 }

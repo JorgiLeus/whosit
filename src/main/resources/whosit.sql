@@ -14,3 +14,5 @@ INSERT into whosit.staff (first_name, last_name, gender, picture_url) VALUES
    ('Robert', 'De Niro', 'MALE', 'url'),
    ('Merryl', 'Sheep', 'FEMALE', 'url'),
    ('Keira', 'Nightley', 'FEMALE', 'dsfhjsdjhfjsd');
+
+

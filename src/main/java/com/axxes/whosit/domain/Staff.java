@@ -1,32 +1,38 @@
 package com.axxes.whosit.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "staff")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Staff {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
 
     @Column
+    @JsonProperty("givenName")
     private String firstName;
 
     @Column
+    @JsonProperty("surname")
     private String lastName;
 
     @Column
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column
+    @Transient
     private String pictureUrl;
 
     public Staff() {
+        this.gender = Gender.MALE;
     }
 
-    public Staff(long id, String firstName, String lastName, Gender gender, String pictureUrl) {
+    public Staff(String id, String firstName, String lastName, Gender gender, String pictureUrl) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -34,11 +40,11 @@ public class Staff {
         this.pictureUrl = pictureUrl;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
