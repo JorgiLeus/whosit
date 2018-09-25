@@ -21,7 +21,7 @@ public class RoundController {
     }
 
     @PutMapping("/round/{roundId}")
-    public ResponseEntity<?> getCorrectAnswer(@PathVariable Long roundId, @RequestParam(name = "answer") Long staffId){
+    public ResponseEntity<?> getCorrectAnswer(@PathVariable Long roundId, @RequestParam(name = "answer") String staffId){
         Optional<Round> optRound = roundService.findById(roundId);
 
         if(!optRound.isPresent()){

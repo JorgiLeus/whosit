@@ -74,14 +74,14 @@ public class Round {
         return correct;
     }
 
-    public void checkAnswer(long staffId){
+    public void checkAnswer(String staffId){
         if(!isCompleted){
-            this.correct = this.staff.getId() == staffId;
+            this.correct = this.staff.getId().equals(staffId);
             this.isCompleted = true;
         }
     }
 
-    public Long getCorrectAnswer(){
+    public String getCorrectAnswer(){
         return staff.getId();
     }
 

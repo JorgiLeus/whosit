@@ -1,7 +1,7 @@
 package com.axxes.whosit.controllers;
 
-import com.axxes.whosit.domain.AxxesUser;
 import com.axxes.whosit.domain.Game;
+import com.axxes.whosit.domain.GameScore;
 import com.axxes.whosit.domain.Staff;
 import com.axxes.whosit.service.GameService;
 import com.axxes.whosit.service.StaffService;
@@ -36,24 +36,22 @@ public class ScoreController {
         Optional<Game> bestGame = gameService.getBestGameForAxxesUser(currentStaff.get().getId());
         Optional<Game> currentGame = gameService.getGameById(gameId);
 
-        if(currentGame.isPresent()){
-            games.add(currentGame.get());
+        if(!currentGame.isPresent()){
+            return ResponseEntity.notFound().build();
         }
         if (bestGame.isPresent()){
             games.add(bestGame.get());
         }
 
-        if (games != null){
+        if (games.size() > 0){
             return ResponseEntity.ok(games);
         }
-        else{
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/hiscores")
-    public ResponseEntity<List<Game>> getHiScores(){
-        List<Game> games = gameService.getHiScores();
+    public ResponseEntity<List<GameScore>> getHiScores(){
+        List<GameScore> games = gameService.getHiScores();
         if (games != null){
             return ResponseEntity.ok(games);
         }else {

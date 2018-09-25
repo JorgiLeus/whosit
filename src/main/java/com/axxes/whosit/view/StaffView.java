@@ -4,20 +4,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class StaffView {
     @JsonProperty("staffId")
-    private Long id;
+    private String id;
     @JsonProperty("url")
     private String picture_url;
 
-    public StaffView(Long id, String picture_url) {
+    public StaffView(String id, String picture_url) {
         this.id = id;
         this.picture_url = picture_url;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

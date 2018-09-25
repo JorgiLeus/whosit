@@ -18,10 +18,6 @@ public class Game {
     @JoinColumn(name = "game_id")
     private List<Round> rounds;
 
-    /*@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "axxes_user_id")
-    private AxxesUser axxesUser;*/
-
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name="staff_id")
     private Staff staff;
