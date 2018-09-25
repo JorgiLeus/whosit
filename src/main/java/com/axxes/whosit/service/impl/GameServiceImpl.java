@@ -34,13 +34,13 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<GameScore> getHiScores() {
+    public List<GameScore> getGameScore() {
         return gameRepo.getgameScores();
     }
 
     @Override
-    public Optional<Game> getBestGameForAxxesUser(String id) {
-        return gameRepo.findFirstByStaff_idOrderByScoreDescCompletionTimeMsAsc(id);
+    public Optional<Game> getBestGameForStaffUser(String staff_id, Long id) {
+        return gameRepo.findFirstByStaff_idAndIdNotOrderByScoreDescCompletionTimeMsAsc(staff_id, id);
     }
 
 }

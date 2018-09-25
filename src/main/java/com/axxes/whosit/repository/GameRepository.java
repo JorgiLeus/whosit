@@ -13,9 +13,7 @@ import java.util.Optional;
 public interface GameRepository extends CrudRepository<Game, Long> {
     Optional<Game> findById(Long id);
     List<Game> findAll();
-    //List<Game> findTop10DistinctByStaff_idByOrderByScoreDescCompletionTimeMsAsc();
-    Optional<Game> findFirstByStaff_idOrderByScoreDescCompletionTimeMsAsc(String staff_id);
-
+    Optional<Game> findFirstByStaff_idAndIdNotOrderByScoreDescCompletionTimeMsAsc(String staff_id, Long id);
     @Query(
             value = "select new com.axxes.whosit.domain.GameScore(g.staff.firstName, g.score, min(g.completionTimeMs) as completionTime, g.timestamp) " +
             "from Game g " +

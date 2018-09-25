@@ -2,12 +2,14 @@ package com.axxes.whosit.view;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RoundResponseView {
-    @JsonProperty("correctPictureId")
+public class RoundRequestView {
+    @JsonProperty("pictureId")
     private String staffId;
 
+    public RoundRequestView() {
+    }
 
-    public RoundResponseView(String staffId) {
+    public RoundRequestView(String staffId) {
         this.staffId = staffId;
     }
 
@@ -18,4 +20,5 @@ public class RoundResponseView {
     public void setStaffId(String staffId) {
         this.staffId = staffId;
     }
+
 }

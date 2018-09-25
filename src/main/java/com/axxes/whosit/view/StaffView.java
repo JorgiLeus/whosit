@@ -1,16 +1,17 @@
 package com.axxes.whosit.view;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class StaffView {
-    @JsonProperty("staffId")
     private String id;
-    @JsonProperty("url")
-    private String picture_url;
+    private String name;
+    private String gender;
 
-    public StaffView(String id, String picture_url) {
+    public StaffView() {
+    }
+
+    public StaffView(String id, String name, String gender) {
         this.id = id;
-        this.picture_url = picture_url;
+        this.name = name;
+        this.gender = gender;
     }
 
     public String getId() {
@@ -21,11 +22,19 @@ public class StaffView {
         this.id = id;
     }
 
-    public String getPicture_url() {
-        return picture_url;
+    public String getName() {
+        return name;
     }
 
-    public void setPicture_url(String picture_url) {
-        this.picture_url = picture_url;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

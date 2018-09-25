@@ -2,6 +2,7 @@ package com.axxes.whosit.controllers;
 
 import com.axxes.whosit.domain.Round;
 import com.axxes.whosit.service.RoundService;
+import com.axxes.whosit.view.RoundRequestView;
 import com.axxes.whosit.view.RoundResponseView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/API")
+@RequestMapping("/api")
 public class RoundController {
     private RoundService roundService;
 
@@ -21,7 +22,7 @@ public class RoundController {
     }
 
     @PutMapping("/round/{roundId}")
-    public ResponseEntity<?> getCorrectAnswer(@PathVariable Long roundId, @RequestParam(name = "answer") String staffId){
+    public ResponseEntity<?> getCorrectAnswer(@PathVariable Long roundId, @RequestBody RoundRequestView roundRequestView){
         Optional<Round> optRound = roundService.findById(roundId);
 
         if(!optRound.isPresent()){
@@ -31,7 +32,7 @@ public class RoundController {
         Round round = optRound.get();
 
         if(!round.isCompleted()){
-            round.checkAnswer(staffId);
+            round.checkAnswer(roundRequestView.getStaffId());
             roundService.update(round);
         }
 
