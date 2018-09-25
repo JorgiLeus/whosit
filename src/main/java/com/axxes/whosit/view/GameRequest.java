@@ -6,6 +6,7 @@ public class GameRequest {
     @JsonProperty("rounds")
     private int numberOfRounds;
 
+    @JsonProperty("tryout")
     private boolean tryout;
 
     @JsonProperty("userId")
