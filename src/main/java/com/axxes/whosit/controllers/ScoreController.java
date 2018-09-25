@@ -34,7 +34,7 @@ public class ScoreController {
 
     @GetMapping("scores/{staffId}/{gameId}")
     public ResponseEntity<RankView> getCurrentScoreAndMaxScore(
-            @PathVariable("staffId") final Long staffId,
+            @PathVariable("staffId") final String staffId,
             @PathVariable(value = "gameId", required = false) final Long gameId,
             HttpServletRequest request){
 

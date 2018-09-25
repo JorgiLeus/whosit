@@ -10,15 +10,15 @@ public class GameRequest {
     private boolean tryout;
 
     @JsonProperty("userId")
-    private long staffId;
+    private String staffId;
 
     public GameRequest(){}
 
-    public GameRequest(int numberOfRounds, long userId){
+    public GameRequest(int numberOfRounds, String userId){
         this(numberOfRounds, userId,false);
     }
 
-    public GameRequest(int numberOfRounds, long userId, boolean tryout){
+    public GameRequest(int numberOfRounds, String userId, boolean tryout){
         this.numberOfRounds = numberOfRounds;
         this.tryout = tryout;
     }
@@ -39,11 +39,11 @@ public class GameRequest {
         this.tryout = tryout;
     }
 
-    public long getStaffId() {
+    public String getStaffId() {
         return staffId;
     }
 
-    public void setStaffId(long staffId) {
+    public void setStaffId(String staffId) {
         this.staffId = staffId;
     }
 }
