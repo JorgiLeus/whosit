@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface StaffService {
     List<Staff> getAll();
-    Optional<Staff> getStaffById(Long id);
+    Optional<Staff> getStaffById(String id);
 }
