@@ -11,6 +11,7 @@ import java.util.*;
 public class Game {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @OneToMany(targetEntity = Round.class, cascade = CascadeType.ALL)
