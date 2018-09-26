@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class GameScore {
 
+    private Staff staff;
+
     private String staffName;
 
     private double score;
@@ -35,6 +37,14 @@ public class GameScore {
 
     public void setStaff(String staffName) {
         this.staffName = staffName;
+    }
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 
     public double getScore() {

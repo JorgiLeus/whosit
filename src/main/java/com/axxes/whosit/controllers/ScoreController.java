@@ -47,6 +47,7 @@ public class ScoreController {
 
         //todo: get ranking for user
         rank.setRank(-1);
+        rank.setRank(gameService.getBestRankForUser(staffId));
 
         if(currentGame.isPresent()){
             rank.setCurrent(gameToScoreView(currentGame.get()));
