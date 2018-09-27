@@ -98,6 +98,9 @@ public class Game implements ScoreComparable {
     }
 
     public void generateAnswers(List<Staff> staffs, int numberOfRounds){
+        //removes the player from the list
+        staffs.remove(staff);
+
         Collections.shuffle(staffs);
         for(int i = 0; i < numberOfRounds; i++){
             Staff randomStaff = staffs.get(i);
