@@ -5,6 +5,7 @@ import com.axxes.whosit.domain.Game;
 import com.axxes.whosit.domain.GameScore;
 import com.axxes.whosit.domain.Staff;
 import com.axxes.whosit.repository.GameRepository;
+import com.axxes.whosit.repository.StaffRepository;
 import com.axxes.whosit.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,16 @@ import java.util.stream.Collectors;
 public class GameServiceImpl implements GameService {
 
     private GameRepository gameRepo;
+    private StaffRepository staffRepo;
 
     private static Comparator<ScoreComparable> scoreComperator = Comparator
             .comparing(ScoreComparable::getScore).reversed()
             .thenComparing(ScoreComparable::getCompletionTimeMs);
 
     @Autowired
-    public GameServiceImpl(GameRepository gameRepo){
+    public GameServiceImpl(GameRepository gameRepo, StaffRepository staffRepo){
         this.gameRepo = gameRepo;
+        this.staffRepo = staffRepo;
     }
 
     @Override
@@ -86,5 +89,25 @@ public class GameServiceImpl implements GameService {
     @Transactional
     public void update(Game game) {
         gameRepo.save(game);
+    }
+    @Override
+    public int getBestRankForUser(String staff_id) {
+        Staff staff = staffRepo.getOne(staff_id);
+        List<GameScore> gameScores = gameRepo.getGameScores();
+        //TODO: change staffName in GameScore to staff,
+        //Also here: g.getStaff() and index.of(staff)
+        int rank = gameScores.stream()
+                .map(g -> g.getStaffName())
+                .collect(Collectors.toList())
+                .indexOf(staff.getFirstName());
+        rank++;
+
+//        List<GameScore> gameList = gameRepo.getGameScores();
+//        int rank = gameList.stream().map(g -> g.getStaffName())
+//                .collect(Collectors.toList())
+//                .indexOf(staff.getFirstName());
+//        rank++;
+
+        return rank;
     }
 }

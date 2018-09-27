@@ -29,5 +29,4 @@ public interface GameRepository extends CrudRepository<Game, Long> {
     List<GameScore> getgameScores();
 
     List<Game> findByCompletionTimeMsGreaterThanAndTimestampBetween(long completionTimeMs,LocalDateTime start, LocalDateTime end);
-
 }
