@@ -66,7 +66,7 @@ public class Round {
     }
 
     public Round(){
-        this.amountPossibleAnswers = 4;
+        this.amountPossibleAnswers = 3;
         possibleStaff = new ArrayList<>(amountPossibleAnswers-1);
     }
 
