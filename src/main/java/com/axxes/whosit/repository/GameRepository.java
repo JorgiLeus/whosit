@@ -22,8 +22,8 @@ public interface GameRepository extends CrudRepository<Game, Long> {
                     "where (g.staff.id, g.score, g.timestamp) in (" +
                     "select game.staff.id, max(game.score) as score, g.timestamp " +
                     "from Game game " +
-                    "GROUP BY game.staff.id, g.timestamp) " +
-            "group by g.staff.firstName, g.score, g.timestamp " +
+                    "GROUP BY game.staff, g.timestamp) " +
+            "group by g.staff, g.score, g.timestamp " +
             "order by g.score desc, completionTime asc "
     )
     List<GameScore> getGameScores();

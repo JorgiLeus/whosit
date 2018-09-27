@@ -109,6 +109,7 @@ public class Round {
     private List<Staff> randomSubList(List<Staff> sourceStaffs){
         Random random = new Random();
         int randomIndex = random.nextInt(sourceStaffs.size()-(amountPossibleAnswers-1));
+
         return sourceStaffs.subList(randomIndex, randomIndex+amountPossibleAnswers);
     }
 
