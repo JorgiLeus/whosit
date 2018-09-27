@@ -24,5 +24,6 @@ public interface GameRepository extends CrudRepository<Game, Long> {
             "group by g.staff.firstName, g.score, g.timestamp " +
             "order by g.score desc, completionTime asc "
     )
-    List<GameScore> getgameScores();
+    List<GameScore> getGameScores();
+    List<Game> findDistinctStaff_idByOrderByScoreDescCompletionTimeMsAsc();
 }

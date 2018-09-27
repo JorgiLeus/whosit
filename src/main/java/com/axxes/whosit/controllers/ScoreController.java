@@ -43,10 +43,14 @@ public class ScoreController {
         Optional<Game> bestGame = gameService.getBestGameForStaffUser(currentStaff.get().getId(), gameId);
         Optional<Game> currentGame = gameService.getGameById(gameId);
 
+        /*Staff staff = currentGame.get().getStaff();
+        StaffView staffView = new StaffView(staff.getId(), staff.getFullName(), staff.getGender().name());*/
+
         RankView rank = new RankView();
 
-        //todo: get ranking for user
-        rank.setRank(-1);
+        /*rank.setBest(new ScoreView(staffView, bestGame.get().getScore(), bestGame.get().getCompletionTimeMs(), -1));
+        rank.setCurrent(new ScoreView(staffView, currentGame.get().getScore(), currentGame.get().getCompletionTimeMs(), -1));*/
+        rank.setRank(gameService.getBestRankForUser(staffId));
 
         if(currentGame.isPresent()){
             rank.setCurrent(gameToScoreView(currentGame.get()));
