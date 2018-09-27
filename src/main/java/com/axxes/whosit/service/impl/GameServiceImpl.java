@@ -90,6 +90,7 @@ public class GameServiceImpl implements GameService {
     public void update(Game game) {
         gameRepo.save(game);
     }
+
     @Override
     public int getBestRankForUser(String staff_id) {
         Staff staff = staffRepo.getOne(staff_id);

@@ -130,8 +130,8 @@ public class Game implements ScoreComparable {
         this.calculateCompletiontime(LocalDateTime.now());
     }
 
-    public Round getRound(int round){
-        return rounds.get(round);
+    public Optional<Round> getNextRound(){
+        return rounds.stream().filter(r -> !r.isCompleted()).findFirst();
     }
 
     public int getAmountRoundNumber(){

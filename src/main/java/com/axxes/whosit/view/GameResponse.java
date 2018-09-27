@@ -10,7 +10,7 @@ public class GameResponse {
 
     private int rounds;
 
-    private int currentRoundIndex;
+    private int currentRound;
 
     public GameResponse() {
     }
@@ -23,7 +23,7 @@ public class GameResponse {
         this.id = id;
         this.tryout = tryout;
         this.rounds = rounds;
-        this.currentRoundIndex = currentRoundIndex;
+        this.currentRound = currentRoundIndex;
     }
 
     public long getId() {
@@ -50,11 +50,11 @@ public class GameResponse {
         this.rounds = rounds;
     }
 
-    public int getCurrentRoundIndex() {
-        return currentRoundIndex;
+    public int getCurrentRound() {
+        return currentRound;
     }
 
-    public void setCurrentRoundIndex(int currentRoundIndex) {
-        this.currentRoundIndex = currentRoundIndex;
+    public void setCurrentRound(int currentRoundIndex) {
+        this.currentRound = currentRoundIndex;
     }
 }

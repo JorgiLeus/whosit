@@ -29,6 +29,21 @@ public class Round {
     @Transient
     private final int amountPossibleAnswers;
 
+    public Round(){
+        this.amountPossibleAnswers = 3;
+        possibleStaff = new ArrayList<>(amountPossibleAnswers-1);
+    }
+
+    public Round(Staff staff){
+        this();
+        this.staff = staff;
+    }
+
+    public Round(Staff staff, int amountPossibleAnswers){
+        this.amountPossibleAnswers = amountPossibleAnswers;
+        this.staff = staff;
+    }
+
     public boolean isCompleted() {
         return isCompleted;
     }
@@ -65,20 +80,7 @@ public class Round {
         isCompleted = completed;
     }
 
-    public Round(){
-        this.amountPossibleAnswers = 3;
-        possibleStaff = new ArrayList<>(amountPossibleAnswers-1);
-    }
 
-    public Round(Staff staff){
-        this();
-        this.staff = staff;
-    }
-
-    public Round(Staff staff, int amountPossibleAnswers){
-        this.amountPossibleAnswers = amountPossibleAnswers;
-        this.staff = staff;
-    }
 
 
     public boolean isCorrect(){

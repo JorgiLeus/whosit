@@ -70,8 +70,8 @@ public class GameController {
         return ResponseEntity.ok(gameResponse);
     }
 
-    @GetMapping("/game/{gameId}/round/{roundIndex}")
-    public ResponseEntity<?> getRoundByRoundIndex(@PathVariable Long gameId, @PathVariable int roundIndex){
+    @GetMapping("/game/{gameId}/next-round")
+    public ResponseEntity<?> getRoundByRoundIndex(@PathVariable Long gameId){
         Optional<Game> optionalGame = gameService.getGameById(gameId);
 
         if(!optionalGame.isPresent()){
@@ -79,17 +79,23 @@ public class GameController {
         }
 
         Game game = optionalGame.get();
-        Round requestedRound =  game.getRound(roundIndex);
+        Optional<Round> requestedRound =  game.getNextRound();
+
+        if (!requestedRound.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        Round round = requestedRound.get();
 
         List<PictureView> possibleStaffview = new ArrayList<>();
         for (Staff s :
-                requestedRound.getPossibleAnswers()) {
+                round.getPossibleAnswers()) {
             possibleStaffview.add(new PictureView(s.getId()));
         }
         RoundView roundView = new RoundView(
-                requestedRound.getId(),
+                round.getId(),
                 possibleStaffview,
-                requestedRound.getStaff().getFullName(),
+                round.getStaff().getFullName(),
                 game.getId());
 
         return ResponseEntity.ok(roundView);
