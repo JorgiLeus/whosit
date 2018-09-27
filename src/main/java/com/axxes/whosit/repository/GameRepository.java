@@ -17,7 +17,7 @@ public interface GameRepository extends CrudRepository<Game, Long> {
     List<Game> findAll();
     Optional<Game> findFirstByStaff_idAndIdNotOrderByScoreDescCompletionTimeMsAsc(String staff_id, Long id);
     @Query(
-            value = "select new com.axxes.whosit.domain.GameScore(g.staff.firstName, g.score, min(g.completionTimeMs) as completionTime, g.timestamp) " +
+            value = "select new com.axxes.whosit.domain.GameScore(g.staff, g.score, min(g.completionTimeMs) as completionTime, g.timestamp) " +
             "from Game g " +
                     "where (g.staff.id, g.score, g.timestamp) in (" +
                     "select game.staff.id, max(game.score) as score, g.timestamp " +
@@ -26,7 +26,7 @@ public interface GameRepository extends CrudRepository<Game, Long> {
             "group by g.staff.firstName, g.score, g.timestamp " +
             "order by g.score desc, completionTime asc "
     )
-    List<GameScore> getgameScores();
+    List<GameScore> getGameScores();
 
     List<Game> findByCompletionTimeMsGreaterThanAndTimestampBetween(long completionTimeMs,LocalDateTime start, LocalDateTime end);
 }

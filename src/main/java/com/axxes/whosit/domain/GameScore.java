@@ -45,14 +45,6 @@ public class GameScore implements ScoreComparable {
         return staff;
     }
 
-    public void setStaff(Staff staffName) {
-        this.staff = staffName;
-    }
-
-    public Staff getStaff() {
-        return staff;
-    }
-
     public void setStaff(Staff staff) {
         this.staff = staff;
     }

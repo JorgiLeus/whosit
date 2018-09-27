@@ -97,9 +97,9 @@ public class GameServiceImpl implements GameService {
         //TODO: change staffName in GameScore to staff,
         //Also here: g.getStaff() and index.of(staff)
         int rank = gameScores.stream()
-                .map(g -> g.getStaffName())
+                .map(g -> g.getStaff())
                 .collect(Collectors.toList())
-                .indexOf(staff.getFirstName());
+                .indexOf(staff);
         rank++;
 
 //        List<GameScore> gameList = gameRepo.getGameScores();
