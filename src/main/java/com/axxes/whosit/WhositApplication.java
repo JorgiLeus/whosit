@@ -26,6 +26,7 @@ public class WhositApplication {
 		SpringApplication.run(WhositApplication.class, args);
 	}
 
+	/*
 	@Bean
 	CommandLineRunner runner(StaffRepository personRepository) {
 		return args -> {
@@ -45,6 +46,6 @@ public class WhositApplication {
 				System.out.println("Unable to save users: " + e.getMessage());
 			}
 		};
-	}
+	}*/
 
 }

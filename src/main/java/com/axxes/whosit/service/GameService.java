@@ -12,4 +12,5 @@ public interface GameService {
     Long createGame(Game game);
     List<GameScore> getGameScore();
     Optional<Game> getBestGameForStaffUser(String id, Long game_id);
+    void update(Game game);
 }

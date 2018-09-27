@@ -25,19 +25,15 @@ public class Staff {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Transient
-    private String pictureUrl;
-
     public Staff() {
         this.gender = Gender.MALE;
     }
 
-    public Staff(String id, String firstName, String lastName, Gender gender, String pictureUrl) {
+    public Staff(String id, String firstName, String lastName, Gender gender) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
-        this.pictureUrl = pictureUrl;
     }
 
     public String getId() {
@@ -70,14 +66,6 @@ public class Staff {
 
     public void setGender(Gender gender) {
         this.gender = gender;
-    }
-
-    public String getPictureUrl() {
-        return pictureUrl;
-    }
-
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
     }
 
     public String getFullName(){

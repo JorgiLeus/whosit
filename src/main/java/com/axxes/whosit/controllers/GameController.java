@@ -62,11 +62,10 @@ public class GameController {
 
         Game game = optionalGame.get();
 
-        //TODO: set currentRoundIndex by rounds that have been played
         //TODO: implement tryout;
         GameResponse gameResponse = new GameResponse(game.getId(),
                 game.getAmountRoundNumber(),
-                0);
+                game.getCompletedRounds());
 
         return ResponseEntity.ok(gameResponse);
     }
@@ -84,8 +83,8 @@ public class GameController {
 
         List<PictureView> possibleStaffview = new ArrayList<>();
         for (Staff s :
-                requestedRound.getScrambledList()) {
-            possibleStaffview.add(new PictureView(s.getId(), s.getPictureUrl()));
+                requestedRound.getPossibleAnswers()) {
+            possibleStaffview.add(new PictureView(s.getId()));
         }
         RoundView roundView = new RoundView(
                 requestedRound.getId(),
@@ -96,6 +95,18 @@ public class GameController {
         return ResponseEntity.ok(roundView);
     }
 
+    @PutMapping("game/end")
+    public ResponseEntity<?> endGame(@RequestBody EndGameRequest endGameRequest, HttpServletRequest request){
+        Optional<Game> optGame = gameService.getGameById(endGameRequest.getGameId());
 
+        if(!optGame.isPresent()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
 
+        Game game = optGame.get();
+        game.endGame();
+        gameService.update(game);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
 }

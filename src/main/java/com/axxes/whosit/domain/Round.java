@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 @Entity
 @Table(name = "round")
@@ -18,6 +19,19 @@ public class Round {
 
     @Column
     private boolean correct;
+
+    @Column
+    private boolean isCompleted;
+
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Staff.class, cascade = CascadeType.PERSIST)
+    private List<Staff> possibleStaff;
+
+    @Transient
+    private final int amountPossibleAnswers;
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
 
     public long getId() {
         return id;
@@ -51,24 +65,21 @@ public class Round {
         isCompleted = completed;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Staff.class, cascade = CascadeType.PERSIST)
-    private List<Staff> possibleStaff;
-
-    public boolean isCompleted() {
-        return isCompleted;
-    }
-
-    private boolean isCompleted;
-
     public Round(){
-        possibleStaff = new ArrayList<>();
+        this.amountPossibleAnswers = 4;
+        possibleStaff = new ArrayList<>(amountPossibleAnswers-1);
     }
 
-    public Round(Staff staff, List<Staff> stafList){
+    public Round(Staff staff){
         this();
         this.staff = staff;
-        generatePossibleStaff(stafList);
     }
+
+    public Round(Staff staff, int amountPossibleAnswers){
+        this.amountPossibleAnswers = amountPossibleAnswers;
+        this.staff = staff;
+    }
+
 
     public boolean isCorrect(){
         return correct;
@@ -85,16 +96,21 @@ public class Round {
         return staff.getId();
     }
 
+    public void randomValues(List<Staff> staffList){
+        List<Staff> possibleValues = staffList.stream()
+                .filter(st -> staff.getGender() == st.getGender()&& !st.getId().equals(staff.getId()))
+                .collect(Collectors.toList());
 
-    public void generatePossibleStaff(List<Staff> staffList){
-        List<Staff> sameKindOfStaffList = staffList.stream().filter(st -> staff.getGender() == st.getGender()&& st.getId() != staff.getId()).collect(Collectors.toList());
-        Collections.shuffle(sameKindOfStaffList);
-        for(int i = 0; i < 3; i++){
-            possibleStaff.add(sameKindOfStaffList.get(i));
-        }
+        possibleStaff = randomSubList(possibleValues);
     }
 
-    public List<Staff> getScrambledList(){
+    private List<Staff> randomSubList(List<Staff> sourceStaffs){
+        Random random = new Random();
+        int randomIndex = random.nextInt(sourceStaffs.size()-(amountPossibleAnswers-1));
+        return sourceStaffs.subList(randomIndex, randomIndex+amountPossibleAnswers);
+    }
+
+    public List<Staff> getPossibleAnswers(){
         List<Staff> answers = new ArrayList<>(possibleStaff);
         answers.add(staff);
         Collections.shuffle(answers);
