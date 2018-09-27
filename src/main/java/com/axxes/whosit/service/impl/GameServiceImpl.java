@@ -94,20 +94,13 @@ public class GameServiceImpl implements GameService {
     @Override
     public int getBestRankForUser(String staff_id) {
         Staff staff = staffRepo.getOne(staff_id);
-        List<GameScore> gameScores = gameRepo.getGameScores();
-        //TODO: change staffName in GameScore to staff,
-        //Also here: g.getStaff() and index.of(staff)
+        List<GameScore> gameScores = this.getGameScore();
+
         int rank = gameScores.stream()
-                .map(g -> g.getStaff())
+                .map(GameScore::getStaff)
                 .collect(Collectors.toList())
                 .indexOf(staff);
         rank++;
-
-//        List<GameScore> gameList = gameRepo.getGameScores();
-//        int rank = gameList.stream().map(g -> g.getStaffName())
-//                .collect(Collectors.toList())
-//                .indexOf(staff.getFirstName());
-//        rank++;
 
         return rank;
     }

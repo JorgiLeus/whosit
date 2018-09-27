@@ -43,13 +43,8 @@ public class ScoreController {
         Optional<Game> bestGame = gameService.getBestGameForStaffUser(currentStaff.get().getId(), gameId);
         Optional<Game> currentGame = gameService.getGameById(gameId);
 
-        /*Staff staff = currentGame.get().getStaff();
-        StaffView staffView = new StaffView(staff.getId(), staff.getFullName(), staff.getGender().name());*/
-
         RankView rank = new RankView();
 
-        /*rank.setBest(new ScoreView(staffView, bestGame.get().getScore(), bestGame.get().getCompletionTimeMs(), -1));
-        rank.setCurrent(new ScoreView(staffView, currentGame.get().getScore(), currentGame.get().getCompletionTimeMs(), -1));*/
         rank.setRank(gameService.getBestRankForUser(staffId));
 
         if(currentGame.isPresent()){
@@ -58,20 +53,19 @@ public class ScoreController {
             return ResponseEntity.notFound().build();
         }
 
-        rank.setBest(gameToScoreView(bestGame.orElse(null)));
+        bestGame.ifPresent(bg -> rank.setBest(gameToScoreView(bg)));
 
         return ResponseEntity.ok(rank);
 
     }
 
     @GetMapping("/scores")
-    public ResponseEntity<List<GameScore>> getHiScores(){
+    public ResponseEntity<ScoreListView> getHiScores(){
         List<GameScore> games = gameService.getGameScore();
 
         if (games == null){
             games = new ArrayList<>();
         }
-        System.out.println(games);
 
        List<ScoreView> scores = games.stream()
                 .map(this::gameScoreToScoreView)
@@ -79,7 +73,7 @@ public class ScoreController {
 
         ScoreListView scoreListView = new ScoreListView("period todo", scores);
 
-        return ResponseEntity.ok(games);
+        return ResponseEntity.ok(scoreListView);
     }
 
     private ScoreView gameToScoreView(Game game) {

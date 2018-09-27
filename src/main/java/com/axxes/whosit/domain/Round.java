@@ -26,11 +26,12 @@ public class Round {
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Staff.class, cascade = CascadeType.PERSIST)
     private List<Staff> possibleStaff;
 
+    //is the amount off answers including the correct answer
     @Transient
     private final int amountPossibleAnswers;
 
     public Round(){
-        this.amountPossibleAnswers = 3;
+        this.amountPossibleAnswers = 4;
         possibleStaff = new ArrayList<>(amountPossibleAnswers-1);
     }
 
@@ -108,9 +109,9 @@ public class Round {
 
     private List<Staff> randomSubList(List<Staff> sourceStaffs){
         Random random = new Random();
-        int randomIndex = random.nextInt(sourceStaffs.size()-(amountPossibleAnswers-1));
+        int randomIndex = random.nextInt(sourceStaffs.size()-(amountPossibleAnswers-2));
 
-        return sourceStaffs.subList(randomIndex, randomIndex+amountPossibleAnswers);
+        return sourceStaffs.subList(randomIndex, randomIndex+amountPossibleAnswers-1);
     }
 
     public List<Staff> getPossibleAnswers(){
