@@ -26,8 +26,8 @@ public class WhositApplication {
 		SpringApplication.run(WhositApplication.class, args);
 	}
 
-	/*
-	@Bean
+
+	/*@Bean
 	CommandLineRunner runner(StaffRepository personRepository) {
 		return args -> {
 			ObjectMapper mapper = new ObjectMapper();

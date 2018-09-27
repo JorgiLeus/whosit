@@ -107,7 +107,7 @@ public class Game implements ScoreComparable {
             Staff randomStaff = staffs.get(i);
             Round r = new Round(randomStaff);
             r.randomValues(staffs);
-            rounds.add(r);
+            this.rounds.add(r);
         }
     }
 
@@ -126,7 +126,7 @@ public class Game implements ScoreComparable {
                 ++correctAnswers;
             }
         }
-        score = (double) correctAnswers/ rounds.size();
+        this.score = (double) correctAnswers/ this.rounds.size();
         this.calculateCompletiontime(LocalDateTime.now());
     }
 
