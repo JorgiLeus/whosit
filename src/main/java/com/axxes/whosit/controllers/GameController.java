@@ -101,9 +101,9 @@ public class GameController {
         return ResponseEntity.ok(roundView);
     }
 
-    @PutMapping("game/end")
-    public ResponseEntity<?> endGame(@RequestBody EndGameRequest endGameRequest, HttpServletRequest request){
-        Optional<Game> optGame = gameService.getGameById(endGameRequest.getGameId());
+    @PutMapping("/game/{gameId}/end")
+    public ResponseEntity<?> endGame(@PathVariable Long gameId, HttpServletRequest request){
+        Optional<Game> optGame = gameService.getGameById(gameId);
 
         if(!optGame.isPresent()){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

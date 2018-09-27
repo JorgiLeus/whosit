@@ -58,7 +58,7 @@ public class ScoreController {
             return ResponseEntity.notFound().build();
         }
 
-        rank.setBest(gameToScoreView(currentGame.orElse(null)));
+        rank.setBest(gameToScoreView(bestGame.orElse(null)));
 
         return ResponseEntity.ok(rank);
 
@@ -85,11 +85,11 @@ public class ScoreController {
     private ScoreView gameToScoreView(Game game) {
         Staff staff = game.getStaff();
         StaffView staffView = new StaffView(staff.getId(), staff.getFullName(), staff.getGender().name());
-        return new ScoreView(staffView, game.getScore(), game.getCompletionTimeMs(), -1);
+        return new ScoreView(staffView, game.getScore(), game.getCompletionTimeMs(), -1, game.getAmountRoundNumber());
     }
     private ScoreView gameScoreToScoreView(GameScore gameScore){
         Staff staff = gameScore.getStaff();
         StaffView staffView = new StaffView(staff.getId(), staff.getFullName(), staff.getGender().name());
-        return new ScoreView(staffView, gameScore.getScore(), gameScore.getCompletionTimeMs(), gameScore.getAttempts());
+        return new ScoreView(staffView, gameScore.getScore(), gameScore.getCompletionTimeMs(), gameScore.getAttempts(), 20);
     }
 }

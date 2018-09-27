@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ScoreView {
     private StaffView staff;
 
-    private double score;
+    private String score;
 
     @JsonProperty("durationMs")
     private long completionTimeMs;
@@ -16,9 +16,9 @@ public class ScoreView {
     public ScoreView() {
     }
 
-    public ScoreView(StaffView staff, double score, long completionTimeMs, int attempts) {
+    public ScoreView(StaffView staff, double score, long completionTimeMs, int attempts, int scoreScale) {
         this.staff = staff;
-        this.score = score;
+        this.score = (int)(score * scoreScale) + "/" + scoreScale;
         this.completionTimeMs = completionTimeMs;
         this.attempts = attempts;
     }
@@ -31,11 +31,11 @@ public class ScoreView {
         this.staff = staff;
     }
 
-    public double getScore() {
+    public String getScore() {
         return score;
     }
 
-    public void setScore(double score) {
+    public void setScore(String score) {
         this.score = score;
     }
 

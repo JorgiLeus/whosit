@@ -38,10 +38,6 @@ public class Game implements ScoreComparable {
 
     public Game() {}
 
-    public Game(List<Staff> staffs, Staff staff){
-        this(staffs, 20, staff);
-    }
-
     public Game(List<Staff> staffs, int numberRounds, Staff staff){
         rounds = new ArrayList<>();
         this.timestamp = LocalDateTime.now();
