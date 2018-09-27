@@ -57,36 +57,39 @@ public class ScoreController {
         } else {
             return ResponseEntity.notFound().build();
         }
-        if (bestGame.isPresent()){
-            rank.setBest(gameToScoreView(currentGame.get()));
-        }
+
+        rank.setBest(gameToScoreView(currentGame.orElse(null)));
 
         return ResponseEntity.ok(rank);
 
     }
 
-   /* @GetMapping("/scores")
-    public ResponseEntity<ScoreListView> getHiScores(){
+    @GetMapping("/scores")
+    public ResponseEntity<List<GameScore>> getHiScores(){
         List<GameScore> games = gameService.getGameScore();
-
 
         if (games == null){
             games = new ArrayList<>();
-
         }
+        System.out.println(games);
 
-        List<ScoreView> scores = games.stream()
-                .map(g -> gameToScoreView(g))
+       List<ScoreView> scores = games.stream()
+                .map(this::gameScoreToScoreView)
                 .collect(Collectors.toList());
 
         ScoreListView scoreListView = new ScoreListView("period todo", scores);
 
-        return ResponseEntity.ok(scoreListView);
-    }*/
+        return ResponseEntity.ok(games);
+    }
 
     private ScoreView gameToScoreView(Game game) {
         Staff staff = game.getStaff();
         StaffView staffView = new StaffView(staff.getId(), staff.getFullName(), staff.getGender().name());
         return new ScoreView(staffView, game.getScore(), game.getCompletionTimeMs(), -1);
+    }
+    private ScoreView gameScoreToScoreView(GameScore gameScore){
+        Staff staff = gameScore.getStaff();
+        StaffView staffView = new StaffView(staff.getId(), staff.getFullName(), staff.getGender().name());
+        return new ScoreView(staffView, gameScore.getScore(), gameScore.getCompletionTimeMs(), gameScore.getAttempts());
     }
 }

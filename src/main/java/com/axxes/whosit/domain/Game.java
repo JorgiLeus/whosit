@@ -3,12 +3,13 @@ package com.axxes.whosit.domain;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.*;
+import static java.time.temporal.ChronoUnit.MILLIS;
 
 @Entity
 @Table(name = "game")
-public class Game {
+public class Game implements ScoreComparable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,13 +25,16 @@ public class Game {
 
     @Column
     @CreatedDate
-    private Date timestamp;
+    private LocalDateTime timestamp;
 
     @Column
     private double score;
 
-    @Column(name =  "completiontime")
+    @Column(name = "completiontime")
     private long completionTimeMs;
+
+    @Transient
+    private boolean isCompleted;
 
     public Game() {}
 
@@ -40,9 +44,9 @@ public class Game {
 
     public Game(List<Staff> staffs, int numberRounds, Staff staff){
         rounds = new ArrayList<>();
-        timestamp = Date.from(Instant.now());
+        this.timestamp = LocalDateTime.now();
         this.staff = staff;
-        generateRandomAnswers(staffs, numberRounds);
+        generateAnswers(staffs, numberRounds);
     }
 
     public long getId() {
@@ -61,11 +65,11 @@ public class Game {
         this.rounds = rounds;
     }
 
-    public Date getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -93,15 +97,28 @@ public class Game {
         this.staff = staff;
     }
 
-    public void generateRandomAnswers(List<Staff> staffs, int numberOfRounds){
+    public int getCompletedRounds() {
+        return (int) this.rounds.stream().filter(r -> r.isCompleted()).count();
+    }
+
+    public void generateAnswers(List<Staff> staffs, int numberOfRounds){
         Collections.shuffle(staffs);
         for(int i = 0; i < numberOfRounds; i++){
             Staff randomStaff = staffs.get(i);
-            rounds.add(new Round(randomStaff, staffs));
+            Round r = new Round(randomStaff);
+            r.randomValues(staffs);
+            rounds.add(r);
         }
     }
 
-    public void calculateScore(){
+    public boolean isCompleted(){
+        return !(rounds.stream().anyMatch(r -> !r.isCompleted()));
+    }
+
+    public void endGame(){
+        if(!isCompleted()){
+            throw new RuntimeException("Game Must be finished before ending the game");
+        }
         int correctAnswers = 0;
         for (Round round :
                 rounds) {
@@ -110,6 +127,7 @@ public class Game {
             }
         }
         score = (double) correctAnswers/ rounds.size();
+        this.calculateCompletiontime(LocalDateTime.now());
     }
 
     public Round getRound(int round){
@@ -120,18 +138,11 @@ public class Game {
         return rounds.size();
     }
 
-    public boolean isCompleted(){
-        for (Round r:
-             rounds) {
-            if(!r.isCompleted()){
-             return false;
-            }
-        }
-        return true;
-    }
 
-    //TODO: timecheck errors
-    public void calculateCompletiontime(Date endDate) {
-        this.completionTimeMs = endDate.getTime() - timestamp.getTime();
+    private void calculateCompletiontime(LocalDateTime endDate) {
+        if(!timestamp.isBefore(endDate)){
+            throw new IllegalArgumentException("EndDate Can't be before start of the game");
+        }
+        this.completionTimeMs = MILLIS.between(timestamp, endDate);
     }
 }

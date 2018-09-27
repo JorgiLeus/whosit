@@ -1,42 +1,52 @@
 package com.axxes.whosit.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-public class GameScore {
+public class GameScore implements ScoreComparable {
 
     private Staff staff;
-
-    private String staffName;
 
     private double score;
 
     private long completionTimeMs;
 
-    public Date getTimestamp() {
-        return timestamp;
+    private LocalDateTime timestamp;
+
+    private int attempts;
+
+    public GameScore(){
+        this.attempts = 0;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    private Date timestamp;
-
-    public GameScore(){}
-
-    public GameScore(String staffName, double score, long completionTimeMs, Date timeStamp){
-        this.staffName = staffName;
+    public GameScore(Staff staff, double score, long completionTimeMs, LocalDateTime timeStamp){
+        this.staff = staff;
         this.score = score;
         this.completionTimeMs = completionTimeMs;
         this.timestamp = timeStamp;
     }
-
-    public String getStaffName() {
-        return staffName;
+    public GameScore(Game game, int attempts){
+        this.staff = game.getStaff();
+        this.score =  game.getScore();
+        this.completionTimeMs = game.getCompletionTimeMs();
+        this.timestamp = game.getTimestamp();
+        this.attempts = attempts;
     }
 
-    public void setStaff(String staffName) {
-        this.staffName = staffName;
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staffName) {
+        this.staff = staffName;
     }
 
     public Staff getStaff() {
@@ -61,5 +71,9 @@ public class GameScore {
 
     public void setCompletionTimeMs(long completionTimeMs) {
         this.completionTimeMs = completionTimeMs;
+    }
+
+    public int getAttempts(){
+        return this.attempts;
     }
 }
